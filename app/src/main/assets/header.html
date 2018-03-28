@@ -1,0 +1,245 @@
+<html style="height:140px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!--自适应手机屏幕-->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="mobileOptimized" content="width">
+<meta name="handheldFriendly" content="true">
+<title>奖金对比</title>
+<script type="text/javascript" src="http://static.sporttery.cn/info/jslib/jq/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="http://static.sporttery.cn/info/jslib/bdtj/sportterycn.js"></script>
+<script type="text/javascript" src="http://static.sporttery.cn/pres/proj/2016/sporttery-2016/js/navigation.js"></script>
+<link href="http://static.sporttery.cn/pres/proj/2016/sporttery-2016/style/global.css" rel="stylesheet" type="text/css">
+<link href="http://static.sporttery.cn/pres/proj/2016/sporttery-2016/style/navigation.css" rel="stylesheet" type="text/css">
+<link href="http://static.sporttery.cn/pres/proj/2016/sporttery-2016/style/navigation2.css" rel="stylesheet" type="text/css">
+<link href="http://static.sporttery.cn/pres/proj/2016/data/style/reset.css" rel="stylesheet" type="text/css" />
+<link href="http://static.sporttery.cn/pres/proj/2016/data/style/againstdata.css" rel="stylesheet" type="text/css" />
+<link href="http://static.sporttery.cn/pres/proj/2017/sporttery-2017/style/against_foot.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .hb-table th .rd-btn a.rise {
+            background: url(http://static.sporttery.cn/pres/proj/2017/sporttery-2017/images/basketball/rise1.png) no-repeat center top;
+            display: block;
+            height: 15px;
+            width: 20px;
+            margin-top: 10px;
+        }
+        .hb-table th .rd-btn {
+            line-height: 20px;
+            float: left;
+            display: inline;
+        }
+        .odds_max{
+            font-weight:900;
+        }
+        .col1{
+            font-weight:900;
+            color:#0d8b00;
+        }
+        #tj {
+
+            background-color: white;
+        }
+        .hb-table th .rd-btn a.drop {
+            background: url(http://static.sporttery.cn/pres/proj/2017/sporttery-2017/images/basketball/drop1.png) no-repeat center top;
+            display: block;
+            height: 15px;
+            width: 20px;
+            margin-top: 10px;
+        }
+        .hb-table th .rd-tit {
+            float: left;
+            display: inline;
+            margin-left: 14px;
+            padding-top: 12px;
+        }
+        .hb-table th .rd-tits {
+            float: left;
+            display: inline;
+            margin-left: 34px;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+<body style="height:140px;">
+
+<script type="text/javascript" src="http://static.sporttery.cn/info/jslib/jq/jquery-1.7.min.js"></script>
+<script type='text/javascript' src='http://static.sporttery.cn/info/jslib/jq/waypoints.min.js'></script>
+<script type="text/javascript" src="http://static.sporttery.cn/pres/proj/2016/sporttery-2016/js/navigation.js"></script>
+
+<style>
+    .shouzhu{
+        margin: auto;
+        margin-top: 10px;   
+        margin-left: 100px;
+    }
+</style>
+
+
+	 <div class="g-bd" >
+        <!-- 面包屑 -->
+        <div class="m-crm">
+            <div class="f-fl"><a href="http://www.sporttery.cn/" target="_blank" title="竞彩网">竞彩网</a>&nbsp;&gt;&nbsp;<a href="http://www.sporttery.cn/football/index.html" target="_blank" title="数据中心">竞彩足球</a>&nbsp;&gt;&nbsp;<span id="matchesName"></span></div>
+            <div class="f-fr">
+                <select name="" class="u-slt" id="matchList">
+                </select>
+            </div>
+        </div>
+        <!-- /面包屑 -->
+        <!-- 标题区 -->
+        <div class="m-hd">
+            <div class="score f-fl">
+                <ul>
+                    <li id="hTotalScore"></li>
+                    <li id="hHomeResult"></li>
+                </ul>
+            </div>
+            <div class="u-logo f-fl" id="hLogo"><img src="" alt="" /></div>
+            <div class="m-tt f-fl">
+                <div class="m-tt-1" id="leagueMatch"></div>
+                <div>
+                    <div class="match" id="hLeague"><span><br />
+                           </span></div>
+                    <div class="m-tt-2" id="teams"></div>
+                    <div class="match" id="aLeague"><span><br />
+                            </span></div>
+                </div>
+                <div class="m-date f-cb"><span id="round"></span><span id="gameDate"></span><span id="gameTime"></span><span id="weather"></span></div>
+            </div>
+            <div class="u-logo f-fl" id="aLogo"><img src="" alt="" /></div>
+            <div class="score2 f-fr" style="margin-right: -10px;">
+                <ul>
+                    <li id="aTotalScore"></li>
+                    <li id="aHomeResult"></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /标题区 --> 
+    </div>
+
+	
+	<script>
+	var idVaule =window.location.href.split("=")[1];
+	console.log("idVaule:"+idVaule);
+	<!--function inputValueAndGo(value){-->
+        <!--id = value;-->
+       <!---->
+	<!--}-->
+
+ $(document).ready(function() {
+    console.log(3);
+    getMatches();
+    getMatch();
+    });
+
+function getMatches() {
+    $.getScript("http://i.sporttery.cn/api/fb_match_info/get_matches?f_callback=getMatchList", null);
+    console.log(1);
+}
+function getMatchList(data) {
+    console.log(2);
+    var str = "";
+    str += "<option>竞彩赛事</option>";
+    for (var i = 0; i < data['result'].length; i++) {
+        var oneMatch = data['result'][i];
+        str += '<option value="' + oneMatch['id'] + '">' + oneMatch['num'] + " " + oneMatch['l_cn'] + " " + oneMatch['h_cn'] + " VS " + oneMatch['a_cn'] + '</option>';
+    }
+    str += "<option value='match_result'>赛果开奖</option>";
+    $("#matchList").html(str);
+    $("#matchList").val('idVaule');
+}
+
+$("#matchList").change(function() {
+    console.log(4);
+    var id = ($("#matchList").val());
+    if (id != "" && id > 0) {
+        window.open("http://info.sporttery.cn/football/info/fb_match_hhad.php?m=" + id + "");
+    } else {
+        if (id == "match_result") {
+            window.open("http://info.sporttery.cn/football/match_result.php");
+        }
+    }
+})
+
+function getMatch() {
+    var idVaule =window.location.href.split("=")[1];
+    console.log(5);
+    console.log("idVaule"+idVaule);
+    $.getScript("http://i.sporttery.cn/api/fb_match_info/get_match_info?mid="+idVaule+"&f_callback=getMatchInfo", null);
+}
+
+function getMatchInfo(data) {
+    console.log(6);
+    setMatchInfoEmpty();
+    if (data['status']['code'] == 0) {
+        var info = data['result'];
+        $("#matchesName").html(info['h_cn'] + " VS " + info['a_cn']);
+        $("#hTotalScore").html("总成绩 " + returnTxt(info['twin_h']) + "胜" + returnTxt(info['tdraw_h']) + "平" + returnTxt(info['tlose_h']) + "负 积" + returnTxt(info['tpoint_h']) + "分");
+        $("#hHomeResult").html("主场成绩 " + returnTxt(info['hwin_h']) + "胜" + returnTxt(info['hdraw_h']) + "平" + returnTxt(info['hlose_h']) + "负 积" + returnTxt(info['hpoint_h']) + "分");
+        if (info['h_pic'] != "" && info['a_pic'] != "") {
+            $("#hLogo").html("<img src='" + info['h_pic'] + "' alt='" + info['h_cn'] + "' height='100'/>");
+            $("#aLogo").html("<img src='" + info['a_pic'] + "' alt='" + info['a_cn'] + "' height='100'/>");
+        }
+        $("#leagueMatch").html(info['s_num'] + " " + info['l_cn']);
+
+        $("#teams").html(info['h_cn'] + " VS " + info['a_cn']);
+        if (info['g_cn'] != '') {
+            if (info['table_a'] != '' && info['table_h'] != "") {
+                $("#aLeague").html("<div>" + info['g_cn'] + "</div><div>[" + info['table_a'] + "]</div>");
+                $("#hLeague").html("<div>" + info['g_cn'] + "</div><div>[" + info['table_h'] + "]</div>");
+            }
+        } else {
+            if (info['l_cn_abbr'] != "") {
+                if (info['table_a'] != '' && info['table_h'] != "") {
+                    $("#hLeague").html("<div>" + info['l_cn_abbr'] + "</div><div>[" + info['table_h'] + "]</div>");
+                    $("#aLeague").html("<div>" + info['l_cn_abbr'] + "</div><div>[" + info['table_a'] + "]</div>");
+                }
+            }
+        }
+        if (info['table_a'] == "" && info['table_h'] == "") {
+            if (info['rank_a'] != "" && info['rank_h'] != "") {
+                $("#hLeague").html("<div>世</div><div>[" + info['rank_h'] + "]</div>");
+                $("#aLeague").html("<div>世</div><div>[" + info['rank_a'] + "]</div>");
+            }
+        }
+        var week = "";
+        if ($.trim(info['gameweek']) != "") {
+            week = " 第" + info['gameweek'] + "轮";
+        }
+        $("#round").html(info['s_cn'] + " " + info['l_cn_abbr'] + info['r_cn'] + week);
+
+        $("#gameDate").html(info['date_cn']);
+        $("#gameTime").html(info['time_cn']);
+        if (info['weather'] != "") $("#weather").html("实时天气：" + info['weather']);
+
+        $("#aTotalScore").html("总成绩 " + returnTxt(info['twin_a']) + "胜" + returnTxt(info['tdraw_a']) + "平" + returnTxt(info['tlose_a']) + "负 积" + returnTxt(info['tpoint_a']) + "分");
+        $("#aHomeResult").html("客场成绩 " + returnTxt(info['awin_a']) + "胜" + returnTxt(info['adraw_a']) + "平" + returnTxt(info['alose_a']) + "负 积" + returnTxt(info['apoint_a']) + "分");
+    }
+}
+function setMatchInfoEmpty() {
+    console.log(7);
+    $("#matchesName").empty();
+    $("#hTotalScore").empty();
+    $("#hHomeResult").empty();
+    $("#hLogo").empty();
+    $("#leagueMatch").empty();
+    $("#hLeague").empty();
+    $("#teams").empty();
+    $("#aLeague").empty();
+    $("#round").empty();
+    $("#gameDate").empty();
+    $("#gameTime").empty();
+    $("#weather").empty();
+    $("#aLogo").empty();
+    $("#aTotalScore").empty();
+    $("#aHomeResult").empty();
+}
+function returnTxt(txt) {
+    console.log(8);
+    var msg = (txt != "") ? txt: "-";
+    return msg;
+}
+</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="action_share">分享</string>
+    <string name="picture_share">图片转发</string>
+</resources>
